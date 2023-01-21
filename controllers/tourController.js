@@ -6,6 +6,29 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
+export const checkId = (req, res, next, val) => {
+	const tour = tours.find(el => el.id === +val);
+	if(!tour) {
+		return res.status(404).json({
+			status: 'fail',
+			message: `No such tour with id ${val}`
+		})
+	} else {
+		req.tour = tour;
+	}
+	next();
+}
+
+export const checkBody = (req, res, next) => {
+	if(!req.body.name || !req.body.price) {
+		return res.status(404).json({
+			status: 'fail',
+			message: `Dosen't recived data in body`
+		})
+	}
+	next();
+}
+
 
 export const getAllTours = (req, res) => {
 
@@ -21,18 +44,10 @@ export const getAllTours = (req, res) => {
 }
 
 export const getTourById = (req, res) => {
-	const tour = tours.find(el => el.id === +req.params.id);
-	if(!tour) {
-		return res.status(404).json({
-			status: 'fail',
-			message: `No such tour with id ${req.params.id}`
-		})
-	}
-
 	res.status(200).json({
 		status: 'success',
 		data: {
-			tours: [tour]
+			tours: [req.tour]
 		}
 	});
 }
@@ -55,14 +70,6 @@ export const createTour = (req, res) => {
 }
 
 export const updateTour = (req, res) => {
-
-	const tour = tours.find(el => el.id === +req.params.id);
-	if(!tour) {
-		return res.status(404).json({
-			status: 'fail',
-			message: `No such tour with id ${req.params.id}`
-		})
-	}
 	res.status(200).json({
 		status: 'success',
 		data: {
@@ -72,13 +79,6 @@ export const updateTour = (req, res) => {
 }
 
 export const deleteTour = (req, res) => {
-	const tour = tours.find(el => el.id === +req.params.id);
-	if(!tour) {
-		return res.status(404).json({
-			status: 'fail',
-			message: `No such tour with id ${req.params.id}`
-		})
-	}
 	res.status(204).json({
 		status: 'success',
 		data: null
