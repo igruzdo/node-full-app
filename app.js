@@ -4,10 +4,7 @@ import {router as usersRouter} from './routes/userRoutes.js';
 import {router as toursRouter} from './routes/tourRoutes.js';
 import path from 'path';
 import url from 'url';
-import dotenv from 'dotenv';
 
-
-dotenv.config({path: './config.env'});
 export const app = express();
 
 const __filename = url.fileURLToPath(import.meta.url);
