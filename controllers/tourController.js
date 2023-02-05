@@ -1,23 +1,41 @@
 import { Tour } from "../models/tourModel";
 
-export const getAllTours = (req, res) => {
+export const getAllTours = async (req, res) => {
 
-	res.status(200).json({
-		status: 'success',
-		// results: tours.length,
-		// data: {
-		// 	tours
-		// }
-	});
+	try{
+		const tours =  await Tour.find()
+
+		res.status(200).json({
+			status: 'success',
+			results: tours.length,
+			data: {
+				tours
+			}
+		});
+	} catch(err) {
+		res.status(404).json({
+			status: 'fail',
+			message: err
+		})
+	}
 }
 
-export const getTourById = (req, res) => {
-	// res.status(200).json({
-	// 	status: 'success',
-	// 	data: {
-	// 		tours: [req.tour]
-	// 	}
-	// });
+export const getTourById = async (req, res) => {
+
+	try{
+		const tour =  await Tour.findById(req.params.id)
+		res.status(200).json({
+			status: 'success',
+			data: {
+				tour
+			}
+		});
+	} catch(err) {
+		res.status(404).json({
+			status: 'fail',
+			message: err
+		})
+	}
 }
 
 export const createTour = async (req, res) => {
