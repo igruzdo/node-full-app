@@ -1,4 +1,4 @@
-import { Tour } from "../models/tourModel";
+import { Tour } from "../models/tourModel.js";
 
 export const getAllTours = async (req, res) => {
 
@@ -51,7 +51,7 @@ export const createTour = async (req, res) => {
 	} catch(err) {
 		res.status(400).json({
 			status: 'fail',
-			message: 'Invalid data'
+			message: err
 		})
 	}
 }
@@ -72,7 +72,7 @@ export const updateTour = async (req, res) => {
 	} catch(err) {
 		res.status(400).json({
 			status: 'fail',
-			message: 'Invalid data'
+			message: err
 		})
 	}
 
@@ -87,7 +87,7 @@ export const deleteTour = async (req, res) => {
 	} catch(err) {
 		res.status(400).json({
 			status: 'fail',
-			message: 'Invalid data'
+			message: err
 		})
 	}
 }
